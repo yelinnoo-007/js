@@ -61,7 +61,7 @@ let getTodos = (callback) => {
   request.addEventListener("readystatechange", () => {
     if (request.readyState === 4 && request.status === 200) {
       callback(request.responseText,null);
-      // console.log();
+      console.log();
     }
     callback(null,"Something went wrong!")
   });
