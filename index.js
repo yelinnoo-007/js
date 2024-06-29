@@ -96,7 +96,7 @@
 let doSomething = async () => {
   let response = await fetch("http://127.0.0.1:5500/test.json");
   if (response.status === 404) {
-    throw new Error("Something's went wrong!");
+    throw new Error("Something's went wrong & try again!");
   }
   let datas = await response.json();
   return datas;
