@@ -13,62 +13,102 @@
 //   .catch((error) => {
 //     console.log(error.message);
 //   });
-// // fetch("test.json")
-// //   .then((response) => {
-// //     if (response.status !== 404) {
-// //       return response.json();
-// //     }
-// //     throw new Error("Url link is unavailable!");
-// //   })
-// //   .then((data) => {
-// //     console.log(data);
-// //   })
-// //   .catch((error) => {
-// //     console.log(error.message);
-// //   });
 
-// // const getTodos = (resource) => {
-// //   return new Promise((resolve, reject) => {
-// //     let request = new XMLHttpRequest();
-// //     request.addEventListener("readystatechange", () => {
-// //       if (request.readyState === 4 && request.status === 200) {
-// //         let data = JSON.parse(request.responseText);
-// //         resolve(data);
-// //       } else if (request.status === 404) {
-// //         reject("Url link is unavailable!");
-// //       }
-// //     });
-// //     request.open("GET", resource);
-// //     request.send();
-// //   });
-// // };
+// let getTodos = (resource) => {
+//   return new Promise((resolve, reject) => {
+//     let request = new XMLHttpRequest();
+//     request.addEventListener("readystatechange", () => {
+//       if (request.readyState == 4 && request.status == 200) {
+//         let datas = JSON.parse(request.responseText);
+//         resolve(datas);
+//       } else if (request.status === 404) {
+//         reject("Something went wrong!");
+//       }
+//     });
+//     request.open("GET", resource);
+//     request.send();
+//   });
+// };
 
-// // getTodos("http://localhost:5500/test.json")
-// //   .then((data) => {
-// //     if (data) {
-// //       console.log(data);
-// //       return getTodos("http://localhost:5500/test.json");
-// //     }
-// //   })
-// //   .then((data) => {
-// //     console.log(data);
-// //   })
-// //   .catch((error) => {
-// //     console.log(error);
-// //   });
-let getTodos = (callback) => {
-  let request = new XMLHttpRequest();
-  request.addEventListener("readystatechange", () => {
-    if (request.readyState === 4 && request.status === 200) {
-      callback(request.responseText,null);
-      console.log();
-    }
-    callback(null,"Something went wrong!")
-  });
-  request.open("GET", "https://jsonplaceholder.typicode.com/todoss");
-  request.send();
+// let getTodos = (resource, callback) => {
+//   let request = new XMLHttpRequest();
+//   request.addEventListener("readystatechange", () => {
+//     if (request.readyState == 4 && request.status == 200) {
+//       let datas = JSON.parse(request.responseText);
+//       callback(datas, null);
+//     } else if (request.status === 404) {
+//       callback(null, "Something went wrong!");
+//     }
+//   });
+//   request.open("GET", resource);
+//   request.send();
+// };
+
+// getTodos("http://127.0.0.1:5500/test.json", (data, error) => {
+//   console.log(data, error);
+//   if (data) {
+//     getTodos("http://127.0.0.1:5500/test.json", (data, error) => {
+//       console.log(data, error);
+//     });
+//   }
+// });
+
+// getTodos("http://127.0.0.1:5500/test.json")
+//   .then((data) => {
+//     console.log(data);
+//     return getTodos("http://127.0.0.1:5500/test.json");
+//   })
+//   .then((data) => {
+//     console.log(data);
+//     return getTodos("http://127.0.0.1:5500/test.json");
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+// fetch("http://127.0.0.1:5500/test.json")
+//   .then((response) => {
+//     if (response.status === 404) {
+//       throw new Error("Something's went wrong!");
+//     }
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//     return fetch("http://127.0.0.1:5500/test.json");
+//   })
+//   .then((response) => {
+//     if (response.status === 404) {
+//       throw new Error("Something's went wrong!");
+//     }
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log(err.message);
+//   });
+
+let doSomething = async () => {
+  let response = await fetch("http://127.0.0.1:5500/test.json");
+  if (response.status === 404) {
+    throw new Error("Something's went wrong!");
+  }
+  let datas = await response.json();
+  return datas;
 };
-
-getTodos((data, error)=>{
-  console.log(data, error);
-});
+doSomething()
+  .then((data) => {
+    console.log(data);
+    return doSomething();
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
